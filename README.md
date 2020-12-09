@@ -41,11 +41,6 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
     ``` 
     New-ActionPackage 
         -PackageZipFilePath "<AbsolutePathFor_ActionPackage.zip_CreatedInStep1>" 
-        [-TeamsAppDownloadDirectoryPath <AbsolutePathForTeamsAppDownloadDirectory>]
-        [-LogLevel <LogLevel>] 
-        [-LogDirectoryPath <AbsolutePathForLogDirectory>] 
-        [-Endpoint <Endpoint>] 
-        [-AccessToken <AccessToken>]
     ```
     
     ### `PackageZipFilePath` (The only mandatory parameter)
