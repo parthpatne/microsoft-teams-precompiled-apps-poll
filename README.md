@@ -20,7 +20,7 @@ To create the Teams Poll app package:
     * developer.websiteUrl
     * developer.privacyUrl
     * developer.termsOfUseUrl
-1. Zip all the content from the unzipped PreCompiledApp folder and name the zip file as "MSTeamsPoll.zip".
+1. Zip all the content in the PreCompiledApp folder and name the zip file as "MSTeamsPoll.zip".
 
 
 Note: Make sure you do not change to file structure of the PreCompiledApp folder, with no new nested folders.
