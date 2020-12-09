@@ -27,7 +27,7 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
 
 # Step 2: Deploy app to your organisation
 
-1. Open a PowerShell console on your machine.
+1. Open a Windows PowerShell console on your windows machine.
 1. Find PowerShell module named "ActionPackageDeploy.psm1" present in this repo. Copy its absolute path to use in following command. 
 
     ```
@@ -92,7 +92,7 @@ If you want to update the existing Poll Teams app with latest functionality -
 1. Open the `actionManifest.json` file in a text editor.
     * Change the placeholder fields (`packageID`, `developer.name`, `developer.websiteUrl`, `developer.privacyUrl`, `developer.termsOfUseUrl`) in the manifest with existing values in your Poll Teams app. 
     * Update the `version` field in the manifest. Make sure latest version number is higher than previous version number.  
-1. Copy all content of PreCompiledApp folder and send it to zip. Name this zip as "ActionPackage.zip". 
+1. Zip all the content from the unzipped PreCompiledApp folder and name the zip file as "MSTeamsPoll.zip". 
 1. Run the following commands to update your Poll Teams app with the latest bits of code. When prompted, log in using your AAD account. 
     
     ```
@@ -102,11 +102,6 @@ If you want to update the existing Poll Teams app with latest functionality -
     ```
     Update-ActionPackage 
         -PackageZipFilePath "<AbsolutePathFor_ActionPackage.zip_CreatedInLastStep>"
-        [-TeamsAppDownloadDirectoryPath <AbsolutePathForTeamsAppDownloadDirectory>] 
-        [-LogLevel <LogLevel>] 
-        [-LogDirectoryPath <AbsolutePathForLogDirectory>] 
-        [-Endpoint <Endpoint>] 
-        [-AccessToken <AccessToken>]
     ```
 1. Your Poll app on Teams automatically gets updated to the latest version. 
 
