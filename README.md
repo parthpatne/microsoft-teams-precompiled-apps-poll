@@ -11,7 +11,8 @@ To begin, you will need:
 # Step 1: Create your Poll app
 
 To create the Teams Poll app package:
-1. Make sure you have cloned the app repository locally. Navigate to PreCompiledApp folder.
+1. Make sure you have cloned (not downloaded) the app repository locally.
+1. Navigate to PreCompiledApp folder.
 1. Open the actionManifest.json file in a text editor.
 1. Change the placeholder fields in the manifest to values appropriate for your organization.
     * packageID - A unique identifier for this app in reverse domain notation. E.g: com.contoso.pollapp. (Max length: 64)
@@ -28,22 +29,21 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
 # Step 2: Deploy app to your organisation
 
 1. Open a Windows PowerShell console on your windows machine.
-1. Find PowerShell module named "ActionPackageDeploy.psm1" present in this repo. Copy its absolute path to use in following command.
+1. Find PowerShell module named "ActionPackageDeploy.psm1" present in the cloned folder, copy its absolute path and run the following command in the Windows PowerShell console.
 
     ```
     import-module "<AbsolutePathFor_ActionPackageDeploy.psm1>"
     ```
 
-    This command imports the Functions exported by ActionPackageDeploy.psm1 module, so that you can use them from your PowerShell console in next step.
+    This command imports the Functions exported by ActionPackageDeploy.psm1 module which are used in the next steps.
 
-1. Run the below command to deploy the app package to your Microsoft 365 subscription. When prompted, log in to your AAD account.
+1. Once import is successful, run the below command to deploy the app package to your Microsoft 365 subscription.
 
     ```
-    New-ActionPackage -PackageZipFilePath "<AbsolutePathFor_MSTeamsPoll.zip_CreatedInStep1>"
+    New-ActionPackage -PackageZipFilePath "<AbsolutePath for MSTeamsPoll.zip>"
     ```
 
-    ### `PackageZipFilePath`
-    This is a mandatory parameter for this command. User needs to provide absolute path to the compiled action package zip.
+    In the above command, replace <AbsolutePath for MSTeamsPoll.zip> with the absolute path for "MSTeamsPoll.zip" folder created in Step1.
 
 
 1. An AAD custom app, Bot are programmatically created in your tenant to power the Poll message extension app in Teams.
