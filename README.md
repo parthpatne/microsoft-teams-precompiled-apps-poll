@@ -5,13 +5,12 @@
 To begin, you will need:
 * A Microsoft 365 subscription
 * A team with the users who will be sending Polls using this app. (You can add and remove team members later!)
-* A copy of the Poll app GitHub repo (ToDo: Add path here)
-
+* A copy of the Poll app GitHub repo.
 
 # Step 1: Create your Poll app
 
 To create the Teams Poll app package:
-1. Make sure you have cloned (not downloaded) the app repository locally.
+1. Make sure you have cloned (not downloaded) the app repository locally. If you are not able to clone the repository, then follow the steps mentioned in troubleshooting section.
 1. Navigate to PreCompiledApp folder.
 1. Open the actionManifest.json file in a text editor.
 1. Change the placeholder fields in the manifest to values appropriate for your organization.
@@ -29,24 +28,26 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
 # Step 2: Deploy app to your organisation
 
 1. Open a Windows PowerShell console on your windows machine.
+1. If you have downloaded the app repository (not cloned), then you would need to set executionPolicy to unrestricted using following command:
+    ```
+    Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -Scope CurrentUser
+    ```
 1. Find PowerShell module named "ActionPackageDeploy.psm1" present in the cloned folder, copy its absolute path and run the following command in the Windows PowerShell console.
 
     ```
     import-module "<AbsolutePathFor_ActionPackageDeploy.psm1>"
     ```
 
-    This command imports the Functions exported by ActionPackageDeploy.psm1 module which are used in the next steps.
+    This command imports the Functions exported by ActionPackageDeploy.psm1 module, that are used in the next steps.
 
-1. Once import is successful, run the below command to deploy the app package to your Microsoft 365 subscription.
+1. After importing the module, run the below command to deploy the app package to your Microsoft 365 subscription. Replace <AbsolutePath for MSTeamsPoll.zip> in following command, with the absolute path for "MSTeamsPoll.zip" folder created in Step1.
 
     ```
     New-ActionPackage -PackageZipFilePath "<AbsolutePath for MSTeamsPoll.zip>"
     ```
 
-    In the above command, replace <AbsolutePath for MSTeamsPoll.zip> with the absolute path for "MSTeamsPoll.zip" folder created in Step1.
+    An AAD custom app, Bot are programmatically created in your tenant to power the Poll message extension app in Teams.
 
-
-1. An AAD custom app, Bot are programmatically created in your tenant to power the Poll message extension app in Teams.
 1. After successful execution of above command, a Poll Teams app zip file is generated at `<Home_Directory>\TeamsApp\microsoft-teams-appzip-upload.zip`.
 
 <br/>
@@ -84,24 +85,29 @@ If you want to update the existing Poll Teams app with latest functionality -
 
 # Troubleshooting
 
-## AccessToken acquisition failed. Acquire token manually.
-AccessToken acquisition may fail, if the script is unable to install `MSAL.PS` module on your machine. In that case, you can follow below steps to acquire the token manually and provide it as input parameter to the ```New-ActionPackage``` or ```Update-ActionPackage``` command.<br/><br/>
-Open following url in browser and login to your AAD account when prompted.<br/>
+## `MSAL.PS` PowerShell module installation failure
 
-https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=token&response_mode=fragment&prompt=select_account&client_id=cac88df7-3599-49cf-9465-867b9eee33cf&redirect_uri=http://localhost:22222/ActionsPlatform&scope=https://actions.office365.com/ActionPackage.ReadWrite.All <br/>
+If `New-ActionPackage` command fails due to PowerShell module installation related errors then try following steps to acquire the AccessToken manually. You can provide this AccessToken as input parameter to the ```New-ActionPackage``` or ```Update-ActionPackage``` command.<br/><br/>
 
-After successful login, browser address bar will contain url similar to below screenshot.![](DocResources/TokenAcquisition.png)
+1. Open following url in browser and login to your AAD account when prompted.<br/>
 
-Url in your browser address bar has following format:
-```
-http://localhost:22222/ActionsPlatform#access_token=<ACCESS_TOKEN>&token_type=Bearer&expires_in=3598&scope=https%3a%2f%2factions.office365.com%2fActionPackage.ReadWrite.All&session_state=...
-```
+    https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=token&response_mode=fragment&prompt=select_account&client_id=cac88df7-3599-49cf-9465-867b9eee33cf&redirect_uri=http://localhost:22222/ActionsPlatform&scope=https://actions.office365.com/ActionPackage.ReadWrite.All <br/>
 
-Copy the access_token value from this url. Set this string as AccessToken Parameter in
-```New-ActionPackage``` or ```Update-ActionPackage``` command.
+1. After successful login, browser address bar will contain url similar to below screenshot.<br/>![](DocResources/TokenAcquisition.png)
 
-```
-New-ActionPackage
-        -PackageZipFilePath "<AbsolutePathFor_MSTeamsPoll.zip_CreatedInStep1>"
-        -AccessToken "<AccessTokenCopiedFromAboveUrl>"
-```
+    Url in your browser address bar has following format:
+    ```
+    http://localhost:22222/ActionsPlatform#access_token=<ACCESS_TOKEN>&token_type=Bearer&expires_in=3598&scope=https%3a%2f%2factions.office365.com%2fActionPackage.ReadWrite.All&session_state=...
+    ```
+    Copy the access_token value from this url.
+
+1.  Set the AccessToken copied in above step as AccessToken Parameter in
+`New-ActionPackage` or `Update-ActionPackage` command as follows.
+
+    ```
+    New-ActionPackage
+            -PackageZipFilePath "<AbsolutePathFor_MSTeamsPoll.zip_CreatedInStep1>"
+            -AccessToken "<AccessTokenCopiedFromAboveUrl>"
+    ```
+
+##
