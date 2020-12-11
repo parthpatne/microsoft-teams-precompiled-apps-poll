@@ -10,7 +10,7 @@ To begin, you will need:
 # Step 1: Create your Poll app
 
 To create the Teams Poll app package:
-1. Make sure you have cloned (not downloaded) the app repository locally. If you are not able to clone the repository, then follow the steps mentioned in troubleshooting section.
+1. Make sure you have cloned or downloaded the app repository locally.
 1. Navigate to PreCompiledApp folder.
 1. Open the actionManifest.json file in a text editor.
 1. Change the placeholder fields in the manifest to values appropriate for your organization.
@@ -27,28 +27,27 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
 
 # Step 2: Deploy app to your organisation
 
-1. Open a Windows PowerShell console on your windows machine.
-1. If you have downloaded the app repository (not cloned), then you would need to set executionPolicy to unrestricted using following command:
+1. Open a Windows PowerShell console on your windows machine, to run PowerShell commands mentioned in subsequent steps.
+1. If you have downloaded the app repository (not cloned), then you would need to run following PowerShell command to set the ExecutionPolicy to unrestricted.
     ```
     Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -Scope CurrentUser
     ```
-1. Find PowerShell module named "ActionPackageDeploy.psm1" present in the cloned folder, copy its absolute path and run the following command in the Windows PowerShell console.
+1. Find PowerShell module named "ActionPackageDeploy.psm1" present at root level in local repository. Use its absolute/complete path in following PowerShell command.
+    ```
+    import-module "<Absolute path for ActionPackageDeploy.psm1>"
+    ```
+
+    Now, the Functions exported by ActionPackageDeploy.psm1 module, are accessible from PowerShell console, to use in next step.
+
+1. Run following PowerShell command to deploy the app package to your Microsoft 365 subscription. In following command, use AbsolutePath for MSTeamsPoll.zip created in Step1.
 
     ```
-    import-module "<AbsolutePathFor_ActionPackageDeploy.psm1>"
-    ```
-
-    This command imports the Functions exported by ActionPackageDeploy.psm1 module, that are used in the next steps.
-
-1. After importing the module, run the below command to deploy the app package to your Microsoft 365 subscription. Replace <AbsolutePath for MSTeamsPoll.zip> in following command, with the absolute path for "MSTeamsPoll.zip" folder created in Step1.
-
-    ```
-    New-ActionPackage -PackageZipFilePath "<AbsolutePath for MSTeamsPoll.zip>"
+    New-ActionPackage -PackageZipFilePath "<Absolute path for MSTeamsPoll.zip>"
     ```
 
     An AAD custom app, Bot are programmatically created in your tenant to power the Poll message extension app in Teams.
 
-1. After successful execution of above command, a Poll Teams app zip file is generated at `<Home_Directory>\TeamsApp\microsoft-teams-appzip-upload.zip`.
+1. After successful execution of above command, please find the Poll Teams app zip file generated at `<Home_Directory>\TeamsApp\microsoft-teams-appzip-upload.zip`.
 
 <br/>
 
@@ -65,7 +64,7 @@ Upload the generated Poll Teams app zip file (the `microsoft-teams-appzip-upload
 # Step 4: Update your Poll Teams app
 
 If you want to update the existing Poll Teams app with latest functionality -
-1. Make sure you have cloned the latest app repository locally.
+1. Make sure you have cloned or downloaded the latest app repository locally.
 1. Open the `actionManifest.json` file in a text editor.
     * Change the placeholder fields (`packageID`, `developer.name`, `developer.websiteUrl`, `developer.privacyUrl`, `developer.termsOfUseUrl`) in the manifest with existing values in your Poll Teams app.
     * Update the `version` field in the manifest. Make sure latest version number is higher than previous version number.
@@ -73,11 +72,11 @@ If you want to update the existing Poll Teams app with latest functionality -
 1. Run the following commands to update your Poll Teams app with the latest bits of code.
 
     ```
-    import-module "<AbsolutePathFor_ActionPackageDeploy.psm1>"
+    import-module "<Absolute path for ActionPackageDeploy.psm1>"
     ```
     Then run following command: <br/>
     ```
-    Update-ActionPackage -PackageZipFilePath "<AbsolutePathFor_MSTeamsPoll.zip_CreatedInLastStep>"
+    Update-ActionPackage -PackageZipFilePath "<Absolute path for MSTeamsPoll.zip created in last step>"
     ```
 1. Your Poll app on Teams automatically gets updated to the latest version.
 
@@ -99,7 +98,8 @@ If `New-ActionPackage` command fails due to PowerShell module installation relat
     ```
     http://localhost:22222/ActionsPlatform#access_token=<ACCESS_TOKEN>&token_type=Bearer&expires_in=3598&scope=https%3a%2f%2factions.office365.com%2fActionPackage.ReadWrite.All&session_state=...
     ```
-    Copy the access_token value from this url.
+
+    <br/>Copy the access_token value from this url.<br/><br/>![](DocResources/TokenCopy.jpg)
 
 1.  Set the AccessToken copied in above step as AccessToken Parameter in
 `New-ActionPackage` or `Update-ActionPackage` command as follows.
