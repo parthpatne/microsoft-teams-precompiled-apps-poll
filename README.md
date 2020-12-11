@@ -99,7 +99,7 @@ If `New-ActionPackage` command fails due to PowerShell module installation relat
     http://localhost:22222/ActionsPlatform#access_token=<ACCESS_TOKEN>&token_type=Bearer&expires_in=3598&scope=https%3a%2f%2factions.office365.com%2fActionPackage.ReadWrite.All&session_state=...
     ```
 
-    <br/>Copy the access_token value from this url.<br/><br/>![](DocResources/TokenCopy.jpg)
+    <br/>Copy the access_token value from this url.<br/><br/>![](DocResources/TokenCopy.JPG)
 
 1.  Set the AccessToken copied in above step as AccessToken Parameter in
 `New-ActionPackage` or `Update-ActionPackage` command as follows.
