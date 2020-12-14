@@ -108,6 +108,6 @@ If `New-ActionPackage` command fails due to PowerShell module installation relat
 
     ```PS
     New-ActionPackage
-            -PackageZipFilePath "<AbsolutePathFor_MSTeamsPoll.zip_CreatedInStep1>"
+            -PackageZipFilePath .\PreCompiledApp\MSTeamsPoll.zip
             -AccessToken "<AccessTokenCopiedFromAboveUrl>"
     ```
