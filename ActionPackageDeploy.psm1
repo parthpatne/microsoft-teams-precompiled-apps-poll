@@ -143,6 +143,15 @@ function Write-DebugLog {
 
 #region utils
 
+function Initialize-Environment {
+    $Script:LogFilePath = ""
+    $Script:RequestCorrelationId = [guid]::NewGuid().ToString()
+    [System.IO.Directory]::SetCurrentDirectory(((Get-Location -PSProvider FileSystem).ProviderPath))
+
+    # setting security protocol to Tls12, without this, API calls fail
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+}
+
 function Exit-OnError {
     param (
         [Parameter(Mandatory = $false)]
@@ -514,13 +523,12 @@ function New-ActionPackage {
         [Alias("AccessToken")]
         [string]$AccessTokenParam
     )
-
     $Script:LogLevel = $LogLevelParam
     $Script:LogDirectoryPath = $LogDirectoryPathParam
     $Script:Endpoint = $EndpointParam
     $Script:AccessToken = $AccessTokenParam
-    $Script:LogFilePath = ""
-    $Script:RequestCorrelationId = [guid]::NewGuid().ToString()
+
+    Initialize-Environment
 
     $ActionPackageResourceUrl = UploadPackage -PackageZipFilePath $PackageZipFilePathParam
     CreateApp -ActionPackageResourceUrl $ActionPackageResourceUrl -TeamsAppDownloadDirectoryPath $TeamsAppDownloadDirectoryPath
@@ -555,14 +563,11 @@ function Update-ActionPackage {
     $Script:LogDirectoryPath = $LogDirectoryPathParam
     $Script:Endpoint = $EndpointParam
     $Script:AccessToken = $AccessTokenParam
-    $Script:LogFilePath = ""
-    $Script:RequestCorrelationId = [guid]::NewGuid().ToString()
+
+    Initialize-Environment
 
     UploadPackage -PackageZipFilePath $PackageZipFilePathParam
 }
-
-# setting security protocol to Tls12, without this, API calls fail
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 Export-ModuleMember -Function New-ActionPackage, Update-ActionPackage
 
