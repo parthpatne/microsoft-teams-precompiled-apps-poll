@@ -10,10 +10,10 @@ To begin, you will need:
 # Step 1: Create your Poll app
 
 To create the Teams Poll app package:
-1. Make sure you have cloned or downloaded the app repository locally.
+1. Clone this app repository or you can download and unzip it.
 1. Navigate to PreCompiledApp folder.
 1. Open the actionManifest.json file in a text editor.
-1. Change the placeholder fields in the manifest to values appropriate for your organization.
+1. Change the placeholder fields in the manifest to values appropriate for your organization. Please note that all the urls provided in these configs should start with https.
     * packageID - A unique identifier for this app in reverse domain notation. E.g: com.contoso.pollapp. (Max length: 64)
     * developer.[]()name ([What's this?](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema#developer))
     * developer.websiteUrl
@@ -28,9 +28,9 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
 # Step 2: Deploy app to your organisation
 
 1. Open a Windows PowerShell console on your windows machine, to run PowerShell commands mentioned in subsequent steps.
-1. Navigate to the root folder of the cloned repository using following command.
+1. Navigate to DeploymentScript folder located in the cloned repository using `cd` command.
     ```PS
-    cd <Local repository root folder path>
+    cd <cloned/downloaded local repository path>\DeploymentScript
     ```
 
 1. If you have downloaded the app repository (not cloned), then run following PowerShell command to set the ExecutionPolicy to unrestricted.
@@ -45,12 +45,13 @@ Note: Make sure you do not change to file structure of the PreCompiledApp folder
 
 1. Run following PowerShell command to deploy the app package to your Microsoft 365 subscription. MSTeamsPoll.zip created in Step1 is used in this command.
     ```PS
-    New-ActionPackage -PackageZipFilePath .\PreCompiledApp\MSTeamsPoll.zip
+    New-ActionPackage -PackageZipFilePath .\..\PreCompiledApp\MSTeamsPoll.zip
     ```
+    This command installs `MSAL.PS` module on your machine, required for authenticating your requests. Please accept the license agreement, by pressing 'y' for the same, when prompted.
 
     An AAD custom app, Bot are programmatically created in your tenant to power the Poll message extension app in Teams.
 
-1. After successful execution of above command, please find the Poll Teams app zip file generated at `<Home_Directory>\TeamsApp\microsoft-teams-appzip-upload.zip`.
+1. After successful execution of above command, `microsoft-teams-appzip-upload.zip` will be generated in TeamsApp folder. You can find the exact path for the zip printed on your console.
 
 <br/>
 
@@ -74,11 +75,11 @@ If you want to update the existing Poll Teams app with latest functionality -
 1. Zip all the content in the PreCompiledApp folder and name the zip file as `MSTeamsPoll.zip`.
 1. Run the following commands to update your Poll Teams app with the latest bits of code.
     ```PS
-    cd <Local repository root folder path>
+    cd <cloned/downloaded repository path>\DeploymentScript
 
     import-module .\ActionPackageDeploy.psm1
 
-    Update-ActionPackage -PackageZipFilePath .\PreCompiledApp\MSTeamsPoll.zip
+    Update-ActionPackage -PackageZipFilePath .\..\PreCompiledApp\MSTeamsPoll.zip
     ```
 1. Your Poll app on Teams automatically gets updated to the latest version.
 
@@ -107,7 +108,5 @@ If `New-ActionPackage` command fails due to PowerShell module installation relat
 `New-ActionPackage` or `Update-ActionPackage` command as follows.
 
     ```PS
-    New-ActionPackage
-            -PackageZipFilePath .\PreCompiledApp\MSTeamsPoll.zip
-            -AccessToken "<AccessTokenCopiedFromAboveUrl>"
+    New-ActionPackage -PackageZipFilePath .\..\PreCompiledApp\MSTeamsPoll.zip -AccessToken "<AccessTokenCopiedFromAboveUrl>"
     ```
